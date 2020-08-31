@@ -22,9 +22,6 @@ maven pom引入
 启动类上添加@EnableSecurity
 该注解上有三个参数，分别为是sensitive否开启脱敏功能、security是否开启加密功能及针对脱敏与加解密类所在的包名，包可不指定，默认为添加@EnableSecurity注解类所在的包的顶级包名+子包名
 
-启动类上添加@EnableSecurity
-该注解上有三个参数，分别为是sensitive否开启脱敏功能、security是否开启加密功能及针对脱敏与加解密类所在的包名，包可不指定，默认为添加@EnableSecurity注解类所在的包的顶级包名+子包名
-
 ```
  @SpringBootApplication
  @EnableSensitive(security = true, sensitive = true, packages = "com.example")
