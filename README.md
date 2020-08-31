@@ -118,5 +118,89 @@ maven pom引入
 
 ### 3. 扩展
 
-TODO 
+如果想自定义脱敏或者加密可以实现SecurityHandler，具体如下
 
+举例：将字符串长度超过5个字符的字段，超过5个字符的部分使用*替换
+
+如 "中国广东省深圳市南山区某某大厦" 变为 "中国广东省******************************"
+
+1. 自定义注解
+
+```
+/**
+ * @author yangge
+ * @version 1.0.0
+ * @date 2020/8/31 13:44
+ */
+@Target({ElementType.FIELD})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface ISensitive {
+
+}
+```
+
+2.  实现SecurityHandler接口，本例中，对添加了ISensitive的字段处理时，如果该字段字符串长度超过5，则将前5个字符保留，后面的全部变为*
+
+   ```
+   @Component
+   public class ISensitiveHandler implements SecurityHandler<ISensitive> {
+   
+       @Override
+       public boolean support(Field field) {
+           return field.isAnnotationPresent(ISensitive.class);
+       }
+   
+       @Override
+       public ISensitive acquire(Field field) {
+           return field.getAnnotation(ISensitive.class);
+       }
+   
+       @Override
+       public String handleEncrypt(String s, ISensitive iSensitive) {
+           if (s.length() > 5) {
+               String substring = s.substring(0, 5);
+               String target = StringUtils.rightPad(substring, s.length(), "*");
+               return target;
+           }
+           return s;
+       }
+   
+       @Override
+       public String handleDecrypt(String s, ISensitive iSensitive) {
+           return s;
+       }
+   }
+   ```
+
+   ```java
+   @Data
+   public class Message {
+   
+       private Integer id;
+   
+       @Sensitive(type = SensitiveTypeEnum.CHINESE_NAME)
+       private String name;
+   
+       @ISensitive
+       private String idCard;
+   
+       @ISensitive
+       private String email;
+   
+       @Security
+       private String phone;
+   
+       private List<Company> companyList;
+   }
+   ```
+
+     GET方式请求test接口，返回数据如下，idCard与email字段超过5个字符的部分已替换为*
+
+   ```
+   {"id":1,"name":"杨*","idCard":"61050*************","email":"90774***********","phone":"9172d86998be4f0f9c60b886398e18f4","companyList":[{"id":0,"name":"公**","code":"***********1120"},{"id":1,"name":"公**","code":"***********1121"}]}
+   ```
+
+   3. 总结
+
+      扩展可以进行脱敏及加解密，此案例为脱敏处理扩展，加密扩展同理，可根据自身加密方式进行加密。
