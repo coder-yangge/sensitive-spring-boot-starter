@@ -14,22 +14,21 @@ maven pom引入
   <version>0.0.1-SNAPSHOT</version>
  </dependency>
 启动类上添加@EnableSecurity
- 该注解上有三个参数，分别为是sensitive否开启脱敏功能、security是否开启加密功能及针对脱敏与加解密类所在的包名  
- 包可不指定，默认为添加@EnableSecurity注解类所在的包的顶级包名+子包名
+该注解上有三个参数，分别为是sensitive否开启脱敏功能、security是否开启加密功能及针对脱敏与加解密类所在的包名，包可不指定，默认为添加@EnableSecurity注解类所在的包的顶级包名+子包名
+
+```
  @SpringBootApplication
- @MapperScan(basePackages = "com.example.lean.dao")
  @EnableSensitive(security = true, sensitive = true, packages = "com.example")
  public class LeanApplication {
-
-```
- public static void main(String[] args) {
-     ConfigurableApplicationContext run = SpringApplication.run(LeanApplication.class, args);
+	public static void main(String[] args) {
+     ConfigurableApplicationContext run = SpringApplication.run(LeanApplication.class, 			args);
+	 }
  }
 ```
 
- }
 
-  在需要的接口上添加@Security注解，对与需要脱敏的字段添加@Sensitive注解，需要加密的字段添加 @Security注解
+
+在需要的接口上添加@Security注解，对与需要脱敏的字段添加@Sensitive注解，需要加密的字段添加 @Security注解
 
   application.yml
 
@@ -86,7 +85,7 @@ maven pom引入
         public Message test() {
             Message message = new Message();
             message.setId(1);
-            message.setName("杨戈");
+            message.setName("杨哥");
             message.setIdCard("610502199323223323");
             message.setEmail("907746999@qq.com");
             message.setPhone("18712346789");
