@@ -3,7 +3,7 @@
 ### 1. 介绍
 
 springboot项目中接口返回Vo或接受参数的From中的字段进行脱敏与加解密，该功能生效限于http请求体中数据
-（@RequestBody、@ResponseBody）,脱敏及加解密可进行扩展，目前只提供了基本的脱敏、加解密功能，后续会完善。
+（@RequestBody、@ResponseBody）,脱敏及加解密可进行扩展，目前只提供了基本的脱敏、加解密功能，更多加密方式后续会完善。
 
 ### 2. 使用方式
 
@@ -41,6 +41,8 @@ maven pom引入
 
   application.yml
 
+对称加密：AES
+
 ```yaml
   spring:
     sensitive:
@@ -52,7 +54,18 @@ maven pom引入
         maxDeep: 10     #处理脱敏、加解密对象的最大深度，防止相互依赖导致递归栈内存溢出，默认10
 ```
 
+非对称加密：RSA
 
+```yaml
+sensitive:
+  security:
+    type: RSA
+    mode: HEX
+    charset: UTF-8
+    maxDeep: 10
+    publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCjE4rpk6aJ996IuX9g3uSXk157aZgreSdW+YzKqFjV1ZxXO6WzcrTXg/EfvHs32bj4UyPmz6S6D+p+9NaUmumbqvWhqSTMtAFRqh0DUK9C0KoRWcNELvnRs4PYOfgeL7UuCVtmimme1tHBRQTcfWK8s0OOio2TAMB6J0s0RMH17QIDAQAB
+    privateKey: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAKMTiumTpon33oi5f2De5JeTXntpmCt5J1b5jMqoWNXVnFc7pbNytNeD8R+8ezfZuPhTI+bPpLoP6n701pSa6Zuq9aGpJMy0AVGqHQNQr0LQqhFZw0Qu+dGzg9g5+B4vtS4JW2aKaZ7W0cFFBNx9YryzQ46KjZMAwHonSzREwfXtAgMBAAECgYAXGVaM3VgypMSFs1jCnO/eNIamjn96cO/Mlw6FSjFDIL3DcXR4JaBOAqdt6mG9uH5F1mj4caMQo96AWyfl5sd+BjqRKLpmYm6vPEZr6xae3vh8qTAUz/1tzl/fLibsj9GxO+ee8U2jOlLwtO7ip5MLmacZ+TExKPN2ClSGHzJNwQJBANz7noDpAUkg9bPUEsIgYBnfgzRIE2E0PJ1Hc6pHYz7dcLSqtxxN8sacQOViXyLX7OTs1BcjBdzWgccJW4Wb0H0CQQC86uOn35nBYmxC53LYc0824LzQ77RmkigGKs+PfpM1gNCCFh5nObBr7SpV/nGX08bE3EST0KH8GlA+NhYWFqYxAkBdkBuYMQ9eSxo8vXoDv3lw+vWuWSX7bgaMAQiz++3FXDSwCeflkAtOlDHV7USimBGxC6Tw9t8wlZH1F70sYMBxAkEAqBOGtb1u6ymoziFjAQYeDOIHuw/4fWU9bLc78RuY1vojCAmrxQUDXBImH1oAMCc/abfa33O4GjZC/AZcwgwmkQJBAMhrfvra43EEHqOIYveMsqq3bPsXTz2b3W6cTIlL5dKO2BDZsbWRfxSUO4PMVG+STaoa8kR12I/9OZJYGIGOnDo=
+```
 
     @Data
     public class Message {
