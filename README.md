@@ -21,7 +21,7 @@ maven pom引入
  @EnableSensitive(security = true, sensitive = true, packages = "com.example")
  public class LeanApplication {
 	public static void main(String[] args) {
-     ConfigurableApplicationContext run = SpringApplication.run(LeanApplication.class, 			args);
+            ConfigurableApplicationContext run = SpringApplication.run(LeanApplication.class, args);
 	 }
  }
 ```
