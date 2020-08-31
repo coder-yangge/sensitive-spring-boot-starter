@@ -7,12 +7,21 @@ springboot项目中接口返回Vo或接受参数的From中的字段进行脱敏�
 
 ### 2. 使用方式
 
+git拉取代码到本地， 执行mvn install
+
 maven pom引入
+
+```xml
  <dependency>
   <groupId>com.security</groupId>
   <artifactId>sensitive-spring-boot-starter</artifactId>
   <version>0.0.1-SNAPSHOT</version>
  </dependency>
+```
+
+启动类上添加@EnableSecurity
+该注解上有三个参数，分别为是sensitive否开启脱敏功能、security是否开启加密功能及针对脱敏与加解密类所在的包名，包可不指定，默认为添加@EnableSecurity注解类所在的包的顶级包名+子包名
+
 启动类上添加@EnableSecurity
 该注解上有三个参数，分别为是sensitive否开启脱敏功能、security是否开启加密功能及针对脱敏与加解密类所在的包名，包可不指定，默认为添加@EnableSecurity注解类所在的包的顶级包名+子包名
 
