@@ -2,6 +2,7 @@ package com.security.springboot.autoconfigure;
 
 import com.security.springboot.autoconfigure.annotation.EnableSensitive;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
@@ -12,6 +13,7 @@ import org.springframework.lang.Nullable;
  * @version 1.0.0
  * @date 2020/8/28 17:43
  */
+@Configuration
 @EnableConfigurationProperties({SensitiveConfigProperties.class})
 public class SensitivePropertiesAutoConfiguration implements ImportAware {
 
