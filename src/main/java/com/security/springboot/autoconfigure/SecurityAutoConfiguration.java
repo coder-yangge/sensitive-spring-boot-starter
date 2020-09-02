@@ -2,8 +2,7 @@ package com.security.springboot.autoconfigure;
 
 import com.security.springboot.autoconfigure.advice.EncryptRequestBodyAdvice;
 import com.security.springboot.autoconfigure.advice.EncryptResponseBodyAdvice;
-import com.security.springboot.autoconfigure.codec.AESProcessor;
-import com.security.springboot.autoconfigure.codec.SecurityProcessor;
+import com.security.springboot.autoconfigure.codec.*;
 import com.security.springboot.autoconfigure.enums.SecurityMode;
 import com.security.springboot.autoconfigure.handler.CommonSecurityHandler;
 import com.security.springboot.autoconfigure.handler.SecurityHandler;
@@ -39,6 +38,28 @@ public class SecurityAutoConfiguration extends AbstractConfiguration{
     public SecurityProcessor aesProcessor(SensitiveConfigProperties configProperties) {
         return new AESProcessor(configProperties.getSecurity().getSecret());
     }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = "spring.sensitive.security", name = "type", havingValue = "RSA")
+    public SecurityProcessor rsaProcessor(SensitiveConfigProperties configProperties) {
+        return new RSAProcessor(configProperties.getSecurity().getPublicKey(), configProperties.getSecurity().getPrivateKey());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = "spring.sensitive.security", name = "type", havingValue = "DES")
+    public SecurityProcessor desProcessor(SensitiveConfigProperties configProperties) {
+        return new DESProcessor(configProperties.getSecurity().getSecret());
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(prefix = "spring.sensitive.security", name = "type", havingValue = "SM4")
+    public SecurityProcessor sm4Processor(SensitiveConfigProperties configProperties) {
+        return new SM4Processor(configProperties.getSecurity().getSecret());
+    }
+
 
     @Bean
     public SecurityHandler commonSecurityHandler(SecurityProcessor securityProcessor, SensitiveConfigProperties configProperties) {
