@@ -38,7 +38,7 @@ maven pom引入
 
   application.yml
 
-对称加密：AES
+对称加密：AES  密钥请自行生成
 
 ```yaml
   spring:
@@ -46,12 +46,12 @@ maven pom引入
       security:
         type: AES   #加密方式，默认AES
         mode: HEX   #加密后的字节数组转为字符串方式：HEX 16进制，BASE64 base64
-        secret: +6cuvzvyrFZpRG9pf3r7eQ==    #加密密钥
+        secret: +6cuvzvyrFZpRG9pf3r7eQ==    #加密密钥 密钥请自行生成
         charset: UTF-8  
         maxDeep: 10     #处理脱敏、加解密对象的最大深度，防止相互依赖导致递归栈内存溢出，默认10
 ```
 
-非对称加密：RSA
+非对称加密：RSA  privateKey与publicKey请自行生成
 
 ```yaml
 sensitive:
